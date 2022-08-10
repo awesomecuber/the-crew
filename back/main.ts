@@ -58,7 +58,7 @@ class Card {
             return this.number >= other.number;
         }
 
-        return other.color == Color.Black;
+        return !(other.color == Color.Black);
     }
 
     cardToString(): string {

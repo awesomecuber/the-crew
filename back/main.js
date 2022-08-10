@@ -53,7 +53,7 @@ var Card = /** @class */ (function () {
         if (this.color == other.color) {
             return this.number >= other.number;
         }
-        return other.color == Color.Black;
+        return !(other.color == Color.Black);
     };
     Card.prototype.cardToString = function () {
         switch (this.color) {
@@ -132,7 +132,7 @@ var Player = /** @class */ (function () {
     Player.prototype.sortHand = function () {
         this.hand = this.hand.sort(function (a, b) {
             if (a.color == b.color) {
-                return a.number - b.number;
+                return b.number - a.number;
             }
             else
                 return a.color - b.color;
