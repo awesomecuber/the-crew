@@ -40,7 +40,7 @@ class Card {
     color: Color;
     number: number;
 
-    constructor(color, number) {
+    constructor(color: Color, number: number) {
         this.color = color;
         this.number = number;
     }
@@ -85,7 +85,7 @@ class Task {
     card: Card; // the card that you must win to complete the task
     isComplete: boolean; // whether the task is completed
 
-    constructor(card) {
+    constructor(card: Card) {
         this.card = card;
         this.isComplete = false;
     }
@@ -100,7 +100,7 @@ class Communication {
     card: Card; // the card communicated
     token: CommunicationToken; // whether it is your highest, lowest, or only
 
-    constructor(card, token) {
+    constructor(card: Card, token: CommunicationToken) {
         this.card = card;
         this.token = token;
     }
@@ -285,6 +285,7 @@ class GameState {
 
         //the commander leads the first trick
         this.trick = new Trick(this.commander);
+        this.tricknum = 0;
 
         //finally, if there are no tasks, immediately begin the play phase
         if (this.availableTasks.length <= 0) {
