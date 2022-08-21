@@ -55,4 +55,12 @@ export class Player {
             } else return a.color - b.color;
         });
     }
+
+    // this method sorts a players tasks into the order they must be completed in
+    // this ensures that, if two tasks are completed on the same trick, they are processed in the correct order
+    sortTasks() {
+        this.tasks = this.tasks.sort((a, b) => {
+            return a.token - b.token;
+        });
+    }
 }

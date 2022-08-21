@@ -34,19 +34,22 @@ export enum GameError {
     REVOKE,
 }
 
+//the order of this enum is very important!
+//the logic of the game forces tasks to be processed from Low to High
 export enum TaskToken {
     NULL = -1,
-    OMEGA,
+    NO_TOKEN = 0,
     ONE,
     TWO,
     THREE,
     FOUR,
     FIVE,
-    ONE_ARROW,
+    ONE_ARROW = 101,
     TWO_ARROW,
     THREE_ARROW,
     FOUR_ARROW,
     FIVE_ARROW,
+    OMEGA = 999,
 }
 
 //this card is used for cards that have not yet been played on tricks
