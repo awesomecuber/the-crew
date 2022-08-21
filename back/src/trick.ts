@@ -1,10 +1,4 @@
-import {
-    Color,
-    Direction,
-    CommunicationToken,
-    GameError,
-    BLANK_CARD,
-} from "./header";
+import { Color, Direction, GameError, BLANK_CARD } from "./header";
 import { Card } from "./card";
 
 export class Trick {

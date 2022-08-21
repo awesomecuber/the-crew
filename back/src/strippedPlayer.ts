@@ -1,5 +1,4 @@
 import { Player } from "./player";
-
 import { Task } from "./task";
 import { Communication } from "./communication";
 

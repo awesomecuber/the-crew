@@ -1,12 +1,4 @@
-import {
-    Color,
-    Direction,
-    CommunicationToken,
-    GameError,
-    makeDeck,
-    BLANK_CARD,
-    BLACK_FOUR,
-} from "./header";
+import { Color, Direction, CommunicationToken, GameError, makeDeck, BLACK_FOUR } from "./header";
 
 import { Player } from "./player";
 import { Task } from "./task";

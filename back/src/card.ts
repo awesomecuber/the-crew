@@ -1,4 +1,4 @@
-import { Color, Direction, CommunicationToken, GameError } from "./header";
+import { Color } from "./header";
 
 export class Card {
     color: Color;

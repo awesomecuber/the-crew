@@ -1,10 +1,4 @@
-import {
-    Color,
-    Direction,
-    CommunicationToken,
-    GameError,
-    BLANK_CARD,
-} from "./header";
+import { CommunicationToken } from "./header";
 import { Card } from "./card";
 
 export class Communication {
