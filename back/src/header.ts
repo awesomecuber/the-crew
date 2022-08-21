@@ -34,6 +34,21 @@ export enum GameError {
     REVOKE,
 }
 
+export enum TaskToken {
+    NULL = -1,
+    OMEGA,
+    ONE,
+    TWO,
+    THREE,
+    FOUR,
+    FIVE,
+    ONE_ARROW,
+    TWO_ARROW,
+    THREE_ARROW,
+    FOUR_ARROW,
+    FIVE_ARROW,
+}
+
 //this card is used for cards that have not yet been played on tricks
 export const BLANK_CARD = new Card(Color.NULL, -1);
 
