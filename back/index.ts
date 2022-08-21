@@ -14,6 +14,7 @@ const io = new Server<ClientToServerEvents, ServerToClientEvents>(PORT, {
         origin: "http://127.0.0.1:5173",
     },
 });
+console.log("WELCOME TO OCARINA OF TIME");
 
 let startingTasks: Task[] = [new Task(new Card(Color.Blue, 3))];
 startingTasks = [];
