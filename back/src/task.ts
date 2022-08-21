@@ -16,4 +16,12 @@ export class Task {
     equals(other: Task): boolean {
         return this.card.equals(other.card);
     }
+
+    compare(other: Task): number {
+        if (this.token == other.token) {
+            return this.card.compare(other.card);
+        } else {
+            return this.token - other.token;
+        }
+    }
 }

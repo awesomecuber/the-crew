@@ -50,9 +50,7 @@ export class Player {
 
     sortHand() {
         this.hand = this.hand.sort((a, b) => {
-            if (a.color == b.color) {
-                return b.number - a.number;
-            } else return a.color - b.color;
+            return a.compare(b);
         });
     }
 
@@ -60,7 +58,7 @@ export class Player {
     // this ensures that, if two tasks are completed on the same trick, they are processed in the correct order
     sortTasks() {
         this.tasks = this.tasks.sort((a, b) => {
-            return a.token - b.token;
+            return a.compare(b);
         });
     }
 }

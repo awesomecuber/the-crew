@@ -25,6 +25,12 @@ export class Card {
         return !(other.color == Color.Black);
     }
 
+    compare(other: Card) {
+        if (this.color == other.color) {
+            return other.number - this.number;
+        } else return this.color - other.color;
+    }
+
     cardToString(): string {
         switch (this.color) {
             case Color.Black:
