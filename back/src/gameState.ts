@@ -88,6 +88,16 @@ export class GameState {
         }
     }
 
+    tasksToString() {
+        let str: string = "";
+
+        for (let task of this.availableTasks) {
+            str += task.card.cardToString() + " ";
+        }
+
+        return str;
+    }
+
     //
     update_playCard(dir: Direction, playedCard: Card): GameError {
         //make sure it is the playing phase
