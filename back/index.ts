@@ -3,7 +3,8 @@ import { ClientToServerEvents, ServerToClientEvents } from "./src/types";
 import { GameState } from "./src/gameState";
 import { Task } from "./src/task";
 import { Card } from "./src/card";
-import { Color, Direction } from "./src/header";
+import { Color, Direction, GameError } from "./src/header";
+import { StrippedGameState } from "./src/strippedGameState";
 
 const PORT = 3000;
 
@@ -23,7 +24,17 @@ io.on("connection", (socket) => {
         socket.emit("pong");
     });
 
-    socket.on("playCard", (color, number) => {
-        game.update_playCard(color, number);
+    socket.on("playCard", (dir: Direction, card: Card) => {
+        if (game.update_playCard(dir, card) == GameError.SUCCESS) {
+            let strippedGame: StrippedGameState = new StrippedGameState(game, dir);
+            socket.emit("update", strippedGame);
+        }
+    });
+
+    socket.on("pickTask", (dir: Direction, task: Task) => {
+        if (game.update_pickTask(dir, task) == GameError.SUCCESS) {
+            let strippedGame: StrippedGameState = new StrippedGameState(game, dir);
+            socket.emit("update", strippedGame);
+        }
     });
 });
