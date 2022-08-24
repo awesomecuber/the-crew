@@ -6,4 +6,4 @@ if (uuid == null) {
   sessionStorage.setItem("uuid", uuid);
 }
 
-export default uuid;
+export default uuid as string;
