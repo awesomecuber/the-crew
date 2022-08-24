@@ -33,7 +33,7 @@ function beginInputPrompt() {
                 console.log("It is " + game.isTaskSelection + " that we are selecting tasks");
                 console.log("The next player to play is " + game.nextPlay);
                 console.log("The commander is " + game.commander);
-                console.log("The current tasks are:" + game.tasksToString());
+                console.log("The current tasks are: " + game.tasksToString());
                 console.log("The current trick is: " + game.trick.trickToString());
                 for (let i: number = 0; i < 4; i++) {
                     let str: string = game.players[i].handToString();

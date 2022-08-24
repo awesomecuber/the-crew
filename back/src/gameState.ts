@@ -90,8 +90,11 @@ export class GameState {
 
     tasksToString() {
         let str: string = "";
-
-        for (let task of this.availableTasks) {
+        let tempTasks: Task[] = this.completedTasks;
+        if (this.isTaskSelection) {
+            tempTasks = this.availableTasks;
+        }
+        for (let task of tempTasks) {
             str += task.card.cardToString() + " ";
         }
 
@@ -161,6 +164,21 @@ export class GameState {
                 }
             }
 
+            for (let i = 0; i < 4; i++) {
+                for (let task of this.players[i].tasks) {
+                    for (let card of this.trick.cards) {
+                        if (task.card.equals(card)) {
+                            if (this.trick.winner == i) {
+                                task.isComplete = true;
+                                this.completedTasks.push(task);
+                            } else {
+                                this.lose();
+                            }
+                        }
+                    }
+                }
+            }
+
             this.nextPlay = this.trick.winner;
             this.tricknum += 1;
             this.trick = new Trick(this.nextPlay);
@@ -220,25 +238,39 @@ export class GameState {
     }
 
     //this method is called when the game ends, to check to see if the mission succeeded or failed
-    terminate(): boolean {
+    terminate() {
         //first, we have each player validate whether they completed all of their tasks
         for (let player of this.players) {
             for (let task of player.tasks) {
                 if (!task.isComplete) {
-                    console.log("YOU LOSE!!!");
-                    return false;
+                    this.lose();
+                    return;
                 }
             }
         }
 
         //next, we ourselves check to make sure the tasks were completed in the proper order
         if (!this.validateTasks()) {
-            console.log("YOU LOSE!!!");
-            return false;
+            this.lose();
+            return;
         }
 
-        console.log("YOU WIN!!!");
-        return true;
+        this.win();
+    }
+
+    //runs whatever necessary when the team wins a mission
+    win(): void {
+        console.log("YOU WIN!!");
+    }
+
+    //runs whatever necessary when the team loses a mission
+    lose(): void {
+        console.log("YOU LOSE!!!");
+
+        //currently, we remove all players hands so players cannot continue playing
+        for (let player of this.players) {
+            player.hand = [];
+        }
     }
 
     //this method ensures that the tasks were completed in the proper order
