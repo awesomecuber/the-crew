@@ -21,6 +21,7 @@ startingTasks = [];
 let game = new GameState(startingTasks);
 
 let uuidToDir: Record<string, Direction> = {};
+let socketToDir: Record<string, Direction> = {};
 
 io.on("connection", (socket) => {
     socket.on("ping", () => {
@@ -41,11 +42,11 @@ io.on("connection", (socket) => {
             return;
         }
 
-        uuidToDir[uuid] = game.players.length;
+        let dir = Object.keys(uuidToDir).length; // CHANGE THIS DEAR GOD
+        uuidToDir[uuid] = dir;
+        socketToDir[socket.id] = dir;
 
-        let dir = uuidToDir[uuid];
-        let strippedGame = new StrippedGameState(game, dir);
-        socket.emit("update", strippedGame);
+        emitUpdateToAll();
     });
 
     socket.on("playCard", (uuid: string, card: Card) => {
@@ -57,8 +58,7 @@ io.on("connection", (socket) => {
 
         let dir = uuidToDir[uuid];
         if (game.update_playCard(dir, card) == GameError.SUCCESS) {
-            let strippedGame = new StrippedGameState(game, dir);
-            socket.emit("update", strippedGame);
+            emitUpdateToAll();
         } else {
             socket.emit("error", "gamestate error");
         }
@@ -73,8 +73,7 @@ io.on("connection", (socket) => {
 
         let dir = uuidToDir[uuid];
         if (game.update_pickTask(dir, task) == GameError.SUCCESS) {
-            let strippedGame = new StrippedGameState(game, dir);
-            socket.emit("update", strippedGame);
+            emitUpdateToAll();
         } else {
             socket.emit("error", "gamestate error");
         }
@@ -87,8 +86,24 @@ io.on("connection", (socket) => {
             return;
         }
 
+        console.log(socketToDir);
+
         let dir = uuidToDir[uuid];
         let strippedGame = new StrippedGameState(game, dir);
+
+        if (!(socket.id in socketToDir)) {
+            socketToDir[socket.id] = dir;
+        }
+
         socket.emit("update", strippedGame);
     });
 });
+
+async function emitUpdateToAll() {
+    const sockets = await io.fetchSockets();
+    const socketIDs = sockets.map((socket) => socket.id);
+    for (const socketID of socketIDs) {
+        let strippedGame = new StrippedGameState(game, socketToDir[socketID]);
+        io.to(socketID).emit("update", strippedGame);
+    }
+}
