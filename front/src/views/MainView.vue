@@ -47,26 +47,31 @@ function isMainPlayer(player: Player | StrippedPlayer): player is Player {
 </script>
 
 <template>
-  <div class="about">
+  <div class="main-view">
     <div>
       <h1>Me!</h1>
       <Me v-if="me !== null" :my-data="me"></Me>
     </div>
-    <div>
+    <div class="others">
       <h2>Others:</h2>
       <Other v-for="other in others" :other-data="other"></Other>
     </div>
-    <button @click="socket?.emit('ping')">PING</button>
-    <button @click="socket?.emit('joinGame', uuid)">Join Game!</button>
+    <div>
+      <button @click="socket?.emit('ping')">PING</button>
+      <button @click="socket?.emit('joinGame', uuid)">Join Game!</button>
+    </div>
   </div>
 </template>
 
 <style>
-/* @media (min-width: 1024px) {
-  .about {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-  }
-} */
+.main-view {
+  min-height: 100vh;
+  display: inline-flex;
+  flex-direction: column;
+}
+
+.others {
+  display: inline-flex;
+  flex-direction: column;
+}
 </style>

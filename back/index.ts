@@ -25,6 +25,7 @@ let socketToDir: Record<string, Direction> = {};
 
 io.on("connection", (socket) => {
     socket.on("ping", () => {
+        console.log(uuidToDir);
         console.log("ping");
         socket.emit("pong");
     });
@@ -37,14 +38,15 @@ io.on("connection", (socket) => {
             return;
         }
 
-        if (game.players.length >= 4) {
+        let num_players_joined = Object.keys(uuidToDir).length;
+
+        if (num_players_joined >= 4) {
             socket.emit("error", "We are full.");
             return;
         }
 
-        let dir = Object.keys(uuidToDir).length; // CHANGE THIS DEAR GOD
-        uuidToDir[uuid] = dir;
-        socketToDir[socket.id] = dir;
+        uuidToDir[uuid] = num_players_joined;
+        socketToDir[socket.id] = num_players_joined;
 
         emitUpdateToAll();
     });
