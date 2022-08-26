@@ -37,7 +37,7 @@ io.on("connection", (socket) => {
             return;
         }
 
-        if (game.players.length > 4) {
+        if (game.players.length >= 4) {
             socket.emit("error", "We are full.");
             return;
         }
