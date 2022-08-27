@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import type { Card } from "back/card";
-// import { Color } from "back/header";
-import { computed, type StyleHTMLAttributes } from "vue";
+import { computed, inject } from "vue";
 
 const props = defineProps<{
   cardData?: Card;
   big: boolean;
+}>();
+
+const emit = defineEmits<{
+  (e: "click", cardData: Card): void;
 }>();
 
 const backgroundColorStyle = computed(() => {
@@ -63,7 +66,11 @@ const sizeStyle = computed(() => {
 </script>
 
 <template>
-  <div class="card" :style="[backgroundColorStyle, sizeStyle]">
+  <div
+    @click="$emit('click', cardData)"
+    class="card"
+    :style="[backgroundColorStyle, sizeStyle]"
+  >
     <h1 v-if="cardData">{{ cardData.number }}</h1>
   </div>
 </template>
@@ -75,5 +82,6 @@ const sizeStyle = computed(() => {
   align-items: center;
   justify-content: center;
   margin: 2px;
+  cursor: pointer;
 }
 </style>

@@ -1,6 +1,12 @@
 <script setup lang="ts">
+import { socketKey } from "@/keys";
+import uuid from "@/uuid";
 import type { Player } from "back/player";
-import Card from "./Card.vue";
+import { inject } from "vue";
+import Card from "./shared/Card.vue";
+
+const socket = inject(socketKey);
+
 const props = defineProps<{
   myData: Player;
 }>();
@@ -9,13 +15,14 @@ const props = defineProps<{
 <template>
   <div class="main">
     <h1>Hand:</h1>
-    <Card v-for="card in myData.hand" :card-data="card" :big="true"></Card>
-    <h1>Tasks:</h1>
     <Card
-      v-for="task in myData.tasks"
-      :card-data="task.card"
+      @click="(cardData) => socket?.emit('playCard', uuid, cardData)"
+      v-for="card in myData.hand"
+      :card-data="card"
       :big="true"
     ></Card>
+    <h1>Tasks:</h1>
+    <Task v-for="task in myData.tasks" :task-data="task" :big="true"></Task>
   </div>
 </template>
 

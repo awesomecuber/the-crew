@@ -17,7 +17,7 @@ const io = new Server<ClientToServerEvents, ServerToClientEvents>(PORT, {
 console.log("WELCOME TO OCARINA OF TIME");
 
 let startingTasks: Task[] = [new Task(new Card(Color.Blue, 3))];
-startingTasks = [];
+// startingTasks = [];
 let game = new GameState(startingTasks);
 
 let uuidToDir: Record<string, Direction> = {};

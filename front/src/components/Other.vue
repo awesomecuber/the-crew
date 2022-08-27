@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { StrippedPlayer } from "back/strippedPlayer";
-import Card from "./Card.vue";
+import Card from "./shared/Card.vue";
 
 const props = defineProps<{
   otherData: StrippedPlayer;

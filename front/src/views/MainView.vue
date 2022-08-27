@@ -2,12 +2,15 @@
 import { socketKey } from "@/keys";
 import uuid from "@/uuid";
 import { computed } from "@vue/reactivity";
+import type { Direction } from "back/header";
 import type { Player } from "back/player";
 import type { StrippedGameState } from "back/strippedGameState";
 import type { StrippedPlayer } from "back/strippedPlayer";
+import type { Task } from "back/task";
 import { inject, ref, type Ref } from "vue";
 import Me from "../components/Me.vue";
 import Other from "../components/Other.vue";
+import SharedTasks from "../components/SharedTasks.vue";
 
 const socket = inject(socketKey);
 socket?.emit("requestGameState", uuid);
@@ -48,13 +51,22 @@ function isMainPlayer(player: Player | StrippedPlayer): player is Player {
 
 <template>
   <div class="main-view">
+    <h1>Next to play: {{ gameState?.nextPlay }}</h1>
+    <h1>Commander: {{ gameState?.commander }}</h1>
     <div>
-      <h1>Me!</h1>
+      <h1>Me! ({{ gameState?.direction }})</h1>
       <Me v-if="me !== null" :my-data="me"></Me>
     </div>
     <div class="others">
       <h2>Others:</h2>
       <Other v-for="other in others" :other-data="other"></Other>
+    </div>
+    <div class="others">
+      <h2>Available Tasks:</h2>
+      <SharedTasks
+        v-if="gameState?.isTaskSelection"
+        :tasks-data="(gameState?.availableTasks as Task[])"
+      ></SharedTasks>
     </div>
     <div>
       <button @click="socket?.emit('ping')">PING</button>
