@@ -5,6 +5,7 @@ import { Task } from "./src/task";
 import { Card } from "./src/card";
 import { Color, Direction, GameError } from "./src/header";
 import { StrippedGameState } from "./src/strippedGameState";
+import { CardData, TaskData, dataToCard, dataToTask } from "./src/data";
 
 const PORT = 3000;
 
@@ -51,14 +52,16 @@ io.on("connection", (socket) => {
         emitUpdateToAll();
     });
 
-    socket.on("playCard", (uuid: string, card: Card) => {
-        console.log("playCard", uuid, card);
+    socket.on("playCard", (uuid: string, data: CardData) => {
+        console.log("playCard", uuid, data);
 
         if (!(uuid in uuidToDir)) {
             socket.emit("error", "who are you?");
         }
 
         let dir = uuidToDir[uuid];
+        let card = dataToCard(data);
+
         if (game.update_playCard(dir, card) == GameError.SUCCESS) {
             emitUpdateToAll();
         } else {
@@ -66,14 +69,16 @@ io.on("connection", (socket) => {
         }
     });
 
-    socket.on("pickTask", (uuid: string, task: Task) => {
-        console.log("pickTask", uuid, task);
+    socket.on("pickTask", (uuid: string, data: TaskData) => {
+        console.log("pickTask", uuid, data);
 
         if (!(uuid in uuidToDir)) {
             socket.emit("error", "who are you?");
         }
 
         let dir = uuidToDir[uuid];
+        let task = dataToTask(data);
+
         if (game.update_pickTask(dir, task) == GameError.SUCCESS) {
             emitUpdateToAll();
         } else {
