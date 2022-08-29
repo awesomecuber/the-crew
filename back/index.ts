@@ -3,6 +3,7 @@ import { ClientToServerEvents, ServerToClientEvents } from "./src/types";
 import { GameState } from "./src/gameState";
 import { Task } from "./src/task";
 import { Card } from "./src/card";
+import { Communication } from "./src/communication";
 import { Color, Direction, GameError } from "./src/header";
 import { StrippedGameState } from "./src/strippedGameState";
 import { CardData, TaskData, dataToCard, dataToTask } from "./src/data";
@@ -80,6 +81,22 @@ io.on("connection", (socket) => {
         let task = dataToTask(data);
 
         if (game.update_pickTask(dir, task) == GameError.SUCCESS) {
+            emitUpdateToAll();
+        } else {
+            socket.emit("error", "gamestate error");
+        }
+    });
+
+    socket.on("communicate", (uuid: string, communication: Communication) => {
+        console.log("pickTask", uuid, communication);
+
+        if (!(uuid in uuidToDir)) {
+            socket.emit("error", "who are you?");
+        }
+
+        let dir = uuidToDir[uuid];
+
+        if (game.update_communicate(dir, communication) == GameError.SUCCESS) {
             emitUpdateToAll();
         } else {
             socket.emit("error", "gamestate error");

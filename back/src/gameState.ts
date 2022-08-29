@@ -234,7 +234,63 @@ export class GameState {
     }
 
     update_communicate(dir: Direction, communication: Communication): GameError {
-        return GameError.NOT_IMPLEMENTED;
+        //make sure it is the playing phase
+        if (this.isTaskSelection) {
+            console.log("it is not the playing phase");
+            return GameError.WRONG_PHASE;
+        }
+
+        //make sure it is the beginning of a trick
+        if (this.trick.color != Color.NULL) {
+            console.log("you can only communicate before the start of a trick");
+            return GameError.TRICK_ALREADY_STARTED;
+        }
+
+        //make sure the player has not already communicated
+        if (this.players[dir].communication != null) {
+            console.log("you cannot communicate right now");
+            return GameError.ALREADY_COMMUNICATED;
+        }
+
+        //make sure the player has the card they are trying to communicate
+        //also, make sure that the token they have chosen to communicate is legitimate
+        let cardIndex: number = -1;
+        for (let i: number = 0; i < 10; i++) {
+            //if this runs, they have the right card
+            if (communication.card.equals(this.players[dir].hand[i])) {
+                cardIndex = i;
+                break;
+            }
+            //if it isn't equal, make sure it isn't violating the token
+            else if (communication.card.color == this.players[dir].hand[i].color) {
+                switch (communication.token) {
+                    case CommunicationToken.Hi:
+                        if (communication.card.compare(this.players[dir].hand[i]) >= 0) {
+                            console.log("that is not your highest card");
+                            return GameError.BAD_TOKEN;
+                        }
+                        break;
+                    case CommunicationToken.Low:
+                        if (communication.card.compare(this.players[dir].hand[i]) <= 0) {
+                            console.log("that is not your lowest card");
+                            return GameError.BAD_TOKEN;
+                        }
+                        break;
+                    case CommunicationToken.Only:
+                        console.log("that is not your only card");
+                        return GameError.BAD_TOKEN;
+                }
+            }
+        }
+
+        if (cardIndex == -1) {
+            console.log("you don't have that card");
+            return GameError.CARD_NOT_HELD;
+        }
+
+        //if we made it this far, it is a legal communication
+        this.players[dir].communication = communication;
+        return GameError.SUCCESS;
     }
 
     //this method is called when the game ends, to check to see if the mission succeeded or failed

@@ -1,12 +1,14 @@
-import { Card } from "./card";
-import { Task } from "./task";
+import { CardData, TaskData } from "./data";
+import { Communication } from "./communication";
 import { StrippedGameState } from "./strippedGameState";
 
 export interface ClientToServerEvents {
     ping: () => void;
     joinGame: (uuid: string) => void;
-    playCard: (uuid: string, card: Card) => void;
-    pickTask: (uuid: string, task: Task) => void;
+    playCard: (uuid: string, data: CardData) => void;
+    pickTask: (uuid: string, data: TaskData) => void;
+    //currently, communication has no methods.  so no data object rn.  add later if needed.
+    communicate: (uuid: string, data: Communication) => void;
 
     requestGameState: (uuid: string) => void;
 }

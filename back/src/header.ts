@@ -32,10 +32,13 @@ export enum GameError {
     CARD_NOT_HELD,
     CARD_ALREADY_PLAYED,
     REVOKE,
+    TRICK_ALREADY_STARTED,
+    ALREADY_COMMUNICATED, //this also handles cases where the player is not allowed to communicate
+    BAD_TOKEN,
 }
 
 //the order of this enum is very important!
-//the logic of the game forces tasks to be processed from Low to High
+//the logic of the game forces tasks to be processed from low enum value to high enum value
 export enum TaskToken {
     NULL = -1,
     NO_TOKEN = 0,
