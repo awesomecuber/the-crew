@@ -6,7 +6,7 @@ import { Card } from "./src/card";
 import { Communication } from "./src/communication";
 import { Color, Direction, GameError } from "./src/header";
 import { StrippedGameState } from "./src/strippedData";
-import { CardData, TaskData, dataToCard, dataToTask } from "./src/data";
+import { CardData, TaskData, CommunicationData, dataToCard, dataToTask, dataToCommunication } from "./src/data";
 
 const PORT = 3000;
 
@@ -87,14 +87,15 @@ io.on("connection", (socket) => {
         }
     });
 
-    socket.on("communicate", (uuid: string, communication: Communication) => {
-        console.log("pickTask", uuid, communication);
+    socket.on("communicate", (uuid: string, data: CommunicationData) => {
+        console.log("pickTask", uuid, data);
 
         if (!(uuid in uuidToDir)) {
             socket.emit("error", "who are you?");
         }
 
         let dir = uuidToDir[uuid];
+        let communication = dataToCommunication(data);
 
         if (game.update_communicate(dir, communication) == GameError.SUCCESS) {
             emitUpdateToAll();
