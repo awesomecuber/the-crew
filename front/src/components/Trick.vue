@@ -1,22 +1,15 @@
 <script setup lang="ts">
-import type { StrippedPlayer } from "back/strippedData";
+import type { Trick } from "back/trick";
 import Card from "./shared/Card.vue";
 
 const props = defineProps<{
-  otherData: StrippedPlayer;
+  trickData: Trick;
 }>();
 </script>
 
 <template>
   <div class="main">
-    <h1>Hand:</h1>
-    <Card v-for="i in 10" :big="false"></Card>
-    <h1>Tasks:</h1>
-    <Card
-      v-for="task in otherData.tasks"
-      :card-data="task.card"
-      :big="true"
-    ></Card>
+    <Card v-for="card in trickData.cards" :card-data="card" :big="true"></Card>
   </div>
 </template>
 

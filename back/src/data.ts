@@ -1,7 +1,7 @@
 import { Color, CommunicationToken, TaskToken } from "./header";
 import { Card } from "./card";
 import { Task } from "./task";
-import { Communication } from "communication";
+import { Communication } from "./communication";
 
 //these classes represent data that the backend receives.
 //they are only used to parse the data and convert them to the other classes

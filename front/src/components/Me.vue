@@ -4,6 +4,7 @@ import uuid from "@/uuid";
 import type { Player } from "back/player";
 import { inject } from "vue";
 import Card from "./shared/Card.vue";
+import Task from "./shared/Task.vue";
 
 const socket = inject(socketKey);
 
