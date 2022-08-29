@@ -5,7 +5,7 @@ import { Task } from "./src/task";
 import { Card } from "./src/card";
 import { Communication } from "./src/communication";
 import { Color, Direction, GameError } from "./src/header";
-import { StrippedGameState } from "./src/strippedGameState";
+import { StrippedGameState } from "./src/strippedData";
 import { CardData, TaskData, dataToCard, dataToTask } from "./src/data";
 
 const PORT = 3000;

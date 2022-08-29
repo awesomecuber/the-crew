@@ -1,6 +1,6 @@
 import { CardData, TaskData } from "./data";
 import { Communication } from "./communication";
-import { StrippedGameState } from "./strippedGameState";
+import { StrippedGameState } from "./strippedData";
 
 export interface ClientToServerEvents {
     ping: () => void;
