@@ -1,5 +1,7 @@
 import { GameState } from "./gameState";
-import { TaskToken } from "./header";
+import { TaskToken, makeDeck, Color } from "./header";
+import { Card } from "./card";
+import { Task } from "./task";
 
 enum CommunicationRestriction {
     NO_TOKEN = -1,
@@ -50,8 +52,38 @@ class Mission {
         restriction: CommunicationRestriction = CommunicationRestriction.NO_RESTRICTION,
         selection: TaskSelectionStyle = TaskSelectionStyle.NORMAL
     ) {
-        //currently, no tasks
-        this.game = new GameState([]);
+        //validate that there are enough tasks for the given tokens
+        if (taskCount < tokens.length) {
+            tokens = [];
+        }
+
+        //validate that we are not requesting more tasks than there are cards in the deck
+        if (taskCount > 36) {
+            taskCount = 36;
+        }
+
+        //first, we set up the tasks
+        let deck = makeDeck();
+        let tasks: Task[] = [];
+
+        for (let i: number = 0; i < taskCount; i++) {
+            //deterime what task token to give this next task
+            let token: TaskToken | undefined = tokens.pop();
+            if (token == undefined) {
+                token = TaskToken.NO_TOKEN;
+            }
+
+            let card: Card = deck.pop()!;
+
+            //if we picked a black card, redraw
+            while (card.color == Color.Black) {
+                card = deck.pop()!;
+            }
+
+            tasks.push(new Task(card, !token));
+        }
+
+        this.game = new GameState(tasks, this.validate);
         this.restriction = restriction;
         this.selection = selection;
 
@@ -60,8 +92,9 @@ class Mission {
 
     // this method validates a gamestate, checking to see if it satisfies all criteria of the mission
     validate(): boolean {
-        return false;
+        return true;
     }
 }
 
 export const TEST_DEFAULT_MISSION = new Mission();
+export const TEST_MISSION_TASKS = new Mission(4);

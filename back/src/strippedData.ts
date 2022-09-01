@@ -1,4 +1,4 @@
-import { Direction, CommunicationToken } from "./header";
+import { Direction, CommunicationToken, Color } from "./header";
 import { Player } from "./player";
 import { Task } from "./task";
 import { Trick } from "./trick";
@@ -33,7 +33,11 @@ export class StrippedGameState {
         }
 
         this.availableTasks = game.availableTasks;
-        this.trick = game.trick;
+        if (game.trick.color == Color.NULL) {
+            this.trick = game.history[game.history.length - 1];
+        } else {
+            this.trick = game.trick;
+        }
 
         this.commander = game.commander;
         this.nextPlay = game.nextPlay;

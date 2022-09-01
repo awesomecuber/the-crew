@@ -14,16 +14,18 @@ export class GameState {
 
     trick: Trick; // the current trick
     tricknum: number; // how many tricks have been played
-    //history : Trick[];
+    history: Trick[];
 
     commander: Direction; // who the commander is
     nextPlay: Direction; // who can next take an action
 
     isTaskSelection: boolean; // whether or not the game is in the task selection phase, or the playing phase
 
+    validateFunction: (() => boolean) | null = null;
+
     // this constructor creates a gamestate for a new hand
     // tasks are currently fed into the constructor, so that they can be configured depending on the mission
-    constructor(tasks: Task[]) {
+    constructor(tasks: Task[] = [], validateFunction: (() => boolean) | null = null) {
         //first, we initialize all the variables
 
         this.players = [];
@@ -33,6 +35,8 @@ export class GameState {
         this.isTaskSelection = true;
         this.commander = Direction.NULL;
         this.nextPlay = Direction.NULL;
+
+        this.validateFunction = validateFunction;
 
         //now, we add four players
         for (let i: number = 0; i < 4; i++) {
@@ -60,6 +64,7 @@ export class GameState {
         //the commander leads the first trick
         this.trick = new Trick(this.commander);
         this.tricknum = 0;
+        this.history = [];
 
         //finally, if there are no tasks, immediately begin the play phase
         if (this.availableTasks.length <= 0) {
@@ -77,7 +82,6 @@ export class GameState {
     dealHands(): void {
         //first we must make and shuffle the deck
         let deck = makeDeck();
-        deck = deck.sort(() => Math.random() - 0.5);
 
         //now, add 10 cards to each players hand
         for (let i: number = 0; i < this.players.length; i++) {
@@ -181,6 +185,7 @@ export class GameState {
 
             this.nextPlay = this.trick.winner;
             this.tricknum += 1;
+            this.history.push(this.trick);
             this.trick = new Trick(this.nextPlay);
 
             if (this.tricknum == 10) {
@@ -307,6 +312,12 @@ export class GameState {
 
         //next, we ourselves check to make sure the tasks were completed in the proper order
         if (!this.validateTasks()) {
+            this.lose();
+            return;
+        }
+
+        //if we are in a mission, we have to call the mission's validate function!
+        if (this.validateFunction != null && !this.validateFunction()) {
             this.lose();
             return;
         }

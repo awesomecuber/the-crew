@@ -61,6 +61,7 @@ export const BLANK_CARD = new Card(Color.NULL, -1);
 //this is the black 4, for use in deciding who is the commander
 export const BLACK_FOUR = new Card(Color.Black, 4);
 
+//makes and shuffles the deck of cards
 export function makeDeck(): Card[] {
     let deck: Card[] = [];
 
@@ -80,6 +81,9 @@ export function makeDeck(): Card[] {
         let black = new Card(Color.Black, i);
         deck.push(black);
     }
+
+    //shuffles the deck
+    deck = deck.sort(() => Math.random() - 0.5);
 
     return deck;
 }

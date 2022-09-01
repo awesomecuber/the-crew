@@ -7,6 +7,7 @@ import { Communication } from "./src/communication";
 import { Color, Direction, GameError } from "./src/header";
 import { StrippedGameState } from "./src/strippedData";
 import { CardData, TaskData, CommunicationData, dataToCard, dataToTask, dataToCommunication } from "./src/data";
+import { TEST_MISSION_TASKS } from "./src/mission";
 
 const PORT = 3000;
 
@@ -16,11 +17,10 @@ const io = new Server<ClientToServerEvents, ServerToClientEvents>(PORT, {
         origin: "http://127.0.0.1:5173",
     },
 });
-console.log("WELCOME TO OCARINA OF TIME");
+console.log('ƒNƒ%｡ƒVƒbƒNƒRƒ"ƒgƒ [ƒ%｡,ª▪️ K—v,Å,· B');
+console.log("You will need the classic controller.");
 
-let startingTasks: Task[] = [new Task(new Card(Color.Blue, 3))];
-// startingTasks = [];
-let game = new GameState(startingTasks);
+let game = TEST_MISSION_TASKS.game;
 
 let uuidToDir: Record<string, Direction> = {};
 let socketToDir: Record<string, Direction> = {};
