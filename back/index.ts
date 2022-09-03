@@ -4,10 +4,10 @@ import { GameState } from "./src/gameState";
 import { Task } from "./src/task";
 import { Card } from "./src/card";
 import { Communication } from "./src/communication";
-import { Color, Direction, GameError } from "./src/header";
+import { Color, Direction, GameError, TaskToken } from "./src/header";
 import { StrippedGameState } from "./src/strippedData";
 import { CardData, TaskData, CommunicationData, dataToCard, dataToTask, dataToCommunication } from "./src/data";
-import { TEST_MISSION_TASKS } from "./src/mission";
+import { TEST_MISSION_TASKS, MISSION_35 } from "./src/mission";
 
 const PORT = 3000;
 
@@ -20,7 +20,7 @@ const io = new Server<ClientToServerEvents, ServerToClientEvents>(PORT, {
 console.log('ƒNƒ%｡ƒVƒbƒNƒRƒ"ƒgƒ [ƒ%｡,ª▪️ K—v,Å,· B');
 console.log("You will need the classic controller.");
 
-let game = TEST_MISSION_TASKS.game;
+let game = MISSION_35.game;
 
 let uuidToDir: Record<string, Direction> = {};
 let socketToDir: Record<string, Direction> = {};

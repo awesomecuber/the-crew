@@ -7,7 +7,7 @@ export class Task {
 
     token: TaskToken; // the task token applied to the card
 
-    constructor(card: Card, isComplete: boolean = false, token: TaskToken = TaskToken.NO_TOKEN) {
+    constructor(card: Card, token: TaskToken = TaskToken.NO_TOKEN, isComplete: boolean = false) {
         this.card = card;
         this.isComplete = isComplete;
         this.token = token;

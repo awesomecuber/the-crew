@@ -79,7 +79,7 @@ class Mission {
                 card = deck.pop()!;
             }
 
-            tasks.push(new Task(card, !token));
+            tasks.push(new Task(card, token));
         }
 
         this.game = new GameState(tasks, this.validate);

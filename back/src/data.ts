@@ -45,7 +45,7 @@ export function dataToCard(data: CardData): Card {
 }
 
 export function dataToTask(data: TaskData): Task {
-    return new Task(dataToCard(data.card), data.isComplete, data.token);
+    return new Task(dataToCard(data.card), data.token, data.isComplete);
 }
 
 export function dataToCommunication(data: CommunicationData): Communication {
